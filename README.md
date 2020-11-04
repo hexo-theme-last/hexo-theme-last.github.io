@@ -1,2 +1,2 @@
-# hexo-theme-last.io
+# hexo-theme-last.github.io
 Demo of hexo theme last
