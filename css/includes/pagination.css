@@ -1,0 +1,111 @@
+@font-face {
+  font-family: "fontawesome";
+  src: url("/font-awesome/webfonts/fa-solid-900.eot");
+  src: url("/font-awesome/webfonts/fa-solid-900.eot?#iefix") format("embedded-opentype"), url("/font-awesome/webfonts/fa-solid-900.woff") format("woff"), url("/font-awesome/webfonts/fa-solid-900.ttf") format("truetype"), url("/font-awesome/webfonts/fa-solid-900.svg#micon") format("svg");
+}
+@font-face {
+  font-family: "fontawesome";
+  src: url("/font-awesome/webfonts/fa-solid-900.eot");
+  src: url("/font-awesome/webfonts/fa-solid-900.eot?#iefix") format("embedded-opentype"), url("/font-awesome/webfonts/fa-solid-900.woff") format("woff"), url("/font-awesome/webfonts/fa-solid-900.ttf") format("truetype"), url("/font-awesome/webfonts/fa-solid-900.svg#micon") format("svg");
+}
+#mid-col #pagination {
+  width: auto;
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  background: #000;
+  flex: 1;
+}
+#mid-col #pagination .prev-post,
+#mid-col #pagination .next-post {
+  width: 100%;
+}
+#mid-col #pagination .background {
+  width: 100%;
+  height: 100%;
+  opacity: 0.4;
+  background: center center no-repeat;
+  background-size: 100% auto;
+  text-decoration: none;
+}
+#mid-col #pagination .background:hover {
+  opacity: 0.6;
+}
+#mid-col #pagination a {
+  display: block;
+  width: 100%;
+  height: 150px;
+  color: #fff;
+  opacity: 1;
+  position: relative;
+  text-decoration: none;
+}
+#mid-col #pagination #right {
+  right: 10%;
+  text-align: right;
+}
+#mid-col #pagination #left {
+  left: 10%;
+  text-align: left;
+}
+#mid-col #pagination #right,
+#mid-col #pagination #left {
+  position: absolute;
+  top: 45%;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 80%;
+  overflow: hidden;
+  line-height: 20px;
+}
+#mid-col #pagination .label {
+  color: #fffffb 3;
+}
+#mid-col #pagination #label-l {
+  text-align: left;
+  float: left;
+  margin: 40px 0 0 10%;
+}
+#mid-col #pagination #label-r {
+  text-align: right;
+  float: right;
+  margin: 40px 10% 0 0;
+}
+@media (max-width: 600px) {
+  #mid-col #pagination {
+    flex-direction: column;
+    justify-content: space-between;
+  }
+}
+nav#pagination {
+  display: block;
+  clear: both;
+  width: auto;
+  margin: 10px auto;
+  text-align: center;
+}
+nav#pagination .page-number,
+nav#pagination .prev,
+nav#pagination .next,
+nav#pagination .space {
+  font-size: 13px;
+  display: inline-block;
+  background: #fff;
+  color: #000;
+  width: 30px;
+  height: 28px;
+  line-height: 28px;
+  margin: 0 5px;
+  text-decoration: none;
+  border-radius: 2px;
+  font-family: Helvetica;
+  text-align: center;
+  font-weight: bold;
+}
+nav#pagination .current {
+  background-color: #d31b29;
+  color: #fff;
+}
+nav#pagination .page-number:not(.current):hover {
+  color: #d31b29;
+}
