@@ -8,6 +8,9 @@
   src: url("/font-awesome/webfonts/fa-solid-900.eot");
   src: url("/font-awesome/webfonts/fa-solid-900.eot?#iefix") format("embedded-opentype"), url("/font-awesome/webfonts/fa-solid-900.woff") format("woff"), url("/font-awesome/webfonts/fa-solid-900.ttf") format("truetype"), url("/font-awesome/webfonts/fa-solid-900.svg#micon") format("svg");
 }
+#post-content {
+  color: #323232;
+}
 #post-content h1 {
   padding-bottom: 0.3em;
   font-size: 2.25em;
@@ -125,7 +128,7 @@ p {
   background: none;
   width: 7px;
   height: 7px;
-  border: solid 3px #d31b29;
+  border: solid 3px #62b900;
   border-radius: 20px;
   top: 6px;
   left: -20px;
@@ -136,7 +139,7 @@ p {
   background: none;
   width: 7px;
   height: 7px;
-  border: solid 3px #d31b29;
+  border: solid 3px #62b900;
   border-radius: 0px;
   top: 6px;
   left: -20px;
@@ -144,7 +147,7 @@ p {
 }
 #post-content ul li  li li:before {
   content: " ";
-  background-color: #d31b29;
+  background-color: #62b900;
   width: 12px;
   height: 12px;
   border-radius: 20px;
@@ -156,7 +159,8 @@ p {
 /* 有序列表整体样式
 * list-style-type: upper-roman|lower-greek|lower-alpha;
 */
-#post-content ol {
+#post-content ol,
+#post-content ul ol {
   counter-reset: li;
 }
 #post-content ol li {
@@ -165,7 +169,8 @@ p {
   position: relative;
   margin-left: 23px;
 }
-#post-content ol li::before {
+#post-content ol>li::before,
+#post-content ul>ol>li::before {
   content: counter(li);
   counter-increment: li 1;
   color: #fff;
@@ -176,18 +181,18 @@ p {
   height: 17px;
   text-align: center;
   line-height: 16px;
-  background: #d31b29;
+  background: #62b900;
   border-radius: 20px;
-  border: 1px solid #d31b29;
+  border: 1px solid #62b900;
   font-size: 14px;
 }
 #post-content a {
-  color: #d31b29;
+  color: #62b900;
 }
 /* 加粗 */
 #post-content strong {
   font-weight: bold;
-  color: #d31b29;
+  color: #62b900;
 }
 #post-content strong::after {
   content: '」';
@@ -197,23 +202,24 @@ p {
 }
 /* 斜体 */
 #post-content em {
-  color: #d31b29;
+  color: #62b900;
   font-weight: bold;
 }
 /* 加粗斜体 */
 #post-content em strong {
-  color: #d31b29;
+  color: #62b900;
 }
 /* 删除线 */
 #post-content del {
-  color: #d31b29;
+  color: #62b900;
 }
 /* 行内代码 */
 #post-content p code,
 #post-content li code {
-  background-color: #d31b29;
+  background-color: #f5f5f5;
   padding: 0 3px;
   border-radius: 5px;
+  border: #d6d5d5 solid 1px;
   margin: 0 2px;
-  color: #fff;
+  color: #000;
 }

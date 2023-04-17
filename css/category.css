@@ -27,11 +27,11 @@
 }
 #category-block .category-item a {
   text-decoration: none;
-  color: #d31b29;
+  color: #62b900;
 }
 #category-block .category-item .period {
   float: left;
-  border-bottom: #d31b29 solid 1px;
+  border-bottom: #62b900 solid 1px;
 }
 #category-block .category-item .period:hover {
   border-bottom: #fff solid 1px;
@@ -79,7 +79,7 @@
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 1;
-  color: #d31b29;
+  color: #62b900;
 }
 #category-block .category-item .content:before {
   content: " ";

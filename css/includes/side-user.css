@@ -9,10 +9,15 @@
   src: url("/font-awesome/webfonts/fa-solid-900.eot?#iefix") format("embedded-opentype"), url("/font-awesome/webfonts/fa-solid-900.woff") format("woff"), url("/font-awesome/webfonts/fa-solid-900.ttf") format("truetype"), url("/font-awesome/webfonts/fa-solid-900.svg#micon") format("svg");
 }
 .side-user {
-  border-top: 2px #d31b29 solid;
+  border-top: 2px #62b900 solid;
   -webkit-box-shadow: 1px 0 5px rgba(100,100,100,0.4);
   box-shadow: 1px 0 5px rgba(100,100,100,0.4);
   margin-bottom: 20px;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  -khtml-user-select: none;
+  user-select: none;
 }
 .side-user .top-bar {
   display: flex;
@@ -29,8 +34,10 @@
   right: 0;
   top: 0;
   width: 70px;
-  height: 70px;
   z-index: 2;
+}
+.qrButton path {
+  fill: #62b900;
 }
 .avatar {
   width: 50%;
@@ -54,20 +61,20 @@
 }
 #payment-code {
   width: 100%;
-  background-color: rgba(0,0,0,0.8);
+  background-color: #fff;
   color: #fff;
   float: left;
   display: none;
 }
 .qr-description {
-  color: #fff;
+  color: #808080;
   font-size: 20px;
   line-height: 30px;
-  margin-top: 35px;
+  margin-top: 30px;
   text-align: center;
 }
 .pay-code {
-  margin-top: 20px;
+  margin-top: 10px;
   margin-bottom: 20px;
   width: 50%;
   margin-left: 25%;
@@ -76,18 +83,18 @@
   display: flex;
   justify-content: space-around;
   font-size: 20px;
-  margin-bottom: 20px;
+  margin-bottom: 25px;
 }
 .wechat,
 .alipay {
   border-radius: 6px;
-  color: #d31b29;
-  border: solid 1px #d31b29;
+  color: #62b900;
+  border: solid 1px #62b900;
   cursor: pointer;
   padding: 5px 10px;
 }
 .newPayBt {
-  background-color: #d31b29;
+  background-color: #62b900;
   color: #fff;
 }
 .clearfix::after {
