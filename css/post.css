@@ -8,15 +8,161 @@
   src: url("/font-awesome/webfonts/fa-solid-900.eot");
   src: url("/font-awesome/webfonts/fa-solid-900.eot?#iefix") format("embedded-opentype"), url("/font-awesome/webfonts/fa-solid-900.woff") format("woff"), url("/font-awesome/webfonts/fa-solid-900.ttf") format("truetype"), url("/font-awesome/webfonts/fa-solid-900.svg#micon") format("svg");
 }
-@font-face {
-  font-family: "fontawesome";
-  src: url("/font-awesome/webfonts/fa-solid-900.eot");
-  src: url("/font-awesome/webfonts/fa-solid-900.eot?#iefix") format("embedded-opentype"), url("/font-awesome/webfonts/fa-solid-900.woff") format("woff"), url("/font-awesome/webfonts/fa-solid-900.ttf") format("truetype"), url("/font-awesome/webfonts/fa-solid-900.svg#micon") format("svg");
+.code-block-header {
+  color: #ccc;
 }
-@font-face {
-  font-family: "fontawesome";
-  src: url("/font-awesome/webfonts/fa-solid-900.eot");
-  src: url("/font-awesome/webfonts/fa-solid-900.eot?#iefix") format("embedded-opentype"), url("/font-awesome/webfonts/fa-solid-900.woff") format("woff"), url("/font-awesome/webfonts/fa-solid-900.ttf") format("truetype"), url("/font-awesome/webfonts/fa-solid-900.svg#micon") format("svg");
+.code-block-header .code-lang {
+  background-color: #fff;
+  box-shadow: inset 2px 3px 1px 0px #fbfbfb;
+  border: 1px solid #eee;
+  padding: 4px 14px 5px;
+  border-radius: 8px 8px 0 0;
+  border-bottom: none;
+  margin-right: 10px;
+  color: #808080;
+}
+.code-block-header i {
+  padding: 12px 15px 0 0;
+}
+.highlight {
+  box-shadow: inset 2px 0px 1px 1px #fbfbfb, 0 0 15px rgba(0,0,0,0.1);
+  border: 1px solid #eee;
+  background: #fff;
+  border-radius: 0 8px 8px 8px;
+}
+.highlight table {
+  border: none;
+  margin: 10px 0 !important;
+}
+.highlight table td {
+  border: none !important;
+}
+.highlight td.gutter {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  vertical-align: top;
+  left: 0;
+  width: 30px;
+}
+.highlight td.gutter pre {
+  text-align: right;
+  color: #888f96 !important;
+}
+.highlight pre {
+  font-family: "consolas" !important;
+  text-align: left;
+  color: #000;
+}
+.code-head-fullscreen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 38px;
+  z-index: 99;
+  margin: 0;
+  width: 100%;
+  background-color: #fff;
+}
+.code-head-fullscreen .code-lang {
+  padding: 10px 5px;
+}
+pre {
+  color: #808080;
+}
+.comment,
+.quote {
+  color: #d3d3d3;
+  font-style: italic;
+}
+.doctag,
+.formula,
+.keyword {
+  color: #b4009e;
+}
+.deletion,
+.name,
+.section,
+.selector-tag,
+.subst {
+  color: #ea6a74;
+}
+.literal {
+  color: #3a96dd;
+}
+.addition,
+.attribute,
+.meta-string,
+.regexp,
+.string {
+  color: #98c379;
+}
+.built_in,
+.class .title {
+  color: #e59f27;
+}
+.attr,
+.number,
+.selector-attr,
+.selector-class,
+.selector-pseudo,
+.template-variable,
+.type,
+.variable {
+  color: #e59f27;
+}
+.bullet,
+.meta,
+.selector-id,
+.symbol {
+  color: #61aeee;
+}
+.emphasis {
+  font-style: italic;
+}
+.strong {
+  font-weight: 700;
+}
+.ln {
+  margin: 6px 0 0 0 !important;
+}
+.chinese-font {
+  font-family: 'Merriweather Sans', Helvetica, Tahoma, Arial, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft Yahei', 'WenQuanYi Micro Hei', sans-serif;
+}
+.chinese-tranditional-font {
+  font-family: Helvetica, Tahoma, Arial, "文泉驛正黑", "WenQuanYi Zen Hei", "儷黑 Pro", "LiHei Pro", "微軟正黑體", "Microsoft JhengHei", "標楷體", DFKai-SB, sans-serif;
+}
+.english-serif {
+  font-family: 'Noto Serif CJK SC', 'Noto Serif CJK', serif;
+}
+.code-font {
+  font-family: 'Source Code Pro', monospace !important;
+}
+.Ubuntu-font {
+  font-family: 'Ubuntu', sans-serif;
+}
+.serif {
+  font-family: 'Source Han Serif SC', 'Source Han Serif', 'source-han-serif-sc', 'PT Serif', 'SongTi SC', 'MicroSoft Yahei', Georgia, serif;
+}
+.code-block-fullscreen {
+  position: fixed;
+  top: 38px;
+  left: 0;
+  width: 100%;
+  --heightA: 100%;
+  --heightB: calc(var(--heightA) - 30px);
+  height: var(--heightB);
+  min-width: 100%;
+  z-index: 98;
+  margin: 0;
+  animation: elastic 1s;
+  overflow: scroll;
+}
+.code-block-fullscreen-html-scroll {
+  overflow: hidden;
 }
 @font-face {
   font-family: "fontawesome";
@@ -194,6 +340,7 @@
   border: 2px solid rgba(98,185,0,0.5);
   background: rgba(98,185,0,0.1);
   border-radius: 20px;
+  letter-spacing: -2px !important;
 }
 #post-content blockquote::before {
   content: "❝";
@@ -284,11 +431,6 @@
 }
 #post-content table tr:nth-child(2n) {
   background: rgba(98,185,0,0.1);
-}
-@font-face {
-  font-family: "fontawesome";
-  src: url("/font-awesome/webfonts/fa-solid-900.eot");
-  src: url("/font-awesome/webfonts/fa-solid-900.eot?#iefix") format("embedded-opentype"), url("/font-awesome/webfonts/fa-solid-900.woff") format("woff"), url("/font-awesome/webfonts/fa-solid-900.ttf") format("truetype"), url("/font-awesome/webfonts/fa-solid-900.svg#micon") format("svg");
 }
 @font-face {
   font-family: "fontawesome";
@@ -499,7 +641,7 @@ body {
   margin: 20px auto;
   display: block;
 }
-#post figure,
+#post figure:not(.highlight),
 #post table,
 width: 100% {
   overflow-x: scroll;
@@ -512,9 +654,15 @@ width: 100% {
   overflow-x: auto;
 }
 #post .highlight {
-  width: 100%;
-  overflow: scroll;
+  max-width: 100%;
+  overflow-x: auto;
   margin-bottom: 30px;
+}
+#post .highlight table {
+  margin: 0;
+}
+#post .highlight table pre {
+  letter-spacing: 0px;
 }
 #post-content h1 {
   margin-block-start: 0.67em;
@@ -604,4 +752,7 @@ table::-webkit-scrollbar-thumb:hover {
 /*滑道*/
 figure::-webkit-scrollbar-track {
   border-radius: 10px;
+}
+#message-alert .message {
+  background: #fff;
 }
