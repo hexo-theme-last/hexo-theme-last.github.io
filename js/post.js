@@ -113,15 +113,64 @@ tocbot.init({
 var codes = document.getElementsByClassName("highlight");
 // console.log(codes)
 for (var i = 0; i < codes.length; i++) {
-    AddLanguageName(codes[i]);
+    AddLanguageName(codes[i], i);
 }
 
-function AddLanguageName(pre) {
+function AddLanguageName(pre, index) {
     var language = pre.className.split(" ")[1].toUpperCase();
-    var code = pre.children[0].children[0].children[0].children[1];
     if (language == 'HLJS') language = 'TEXT'
     if (language == 'JS') language = 'JavaScript'
     if (language == 'MD') language = 'MarkDown'
     if (language == 'PY') language = 'PYTHON'
-    code.setAttribute("language", language)
+
+    // set code blocks class to help do copy
+    var code = pre.children[0].children[0].children[0].children[1];
+    code.setAttribute("class", "codeblock-content")
+    code.setAttribute("id", "codeblock-"+ index.toString())
+
+    // add header to the codeblock
+    var preHeader = document.createElement("div")
+    preHeader.setAttribute("class", "code-block-header")
+    var langName = document.createElement("span")
+    langName.setAttribute("class", "code-lang")
+    langName.innerHTML = language;
+    
+    var codeblockButtons = document.createElement("span")
+    codeblockButtons.className = "codeblock-buttons"
+    codeblockButtons.innerHTML = `
+        <span class="code-copy-button" data-index="${index}">
+            <i class="fa-solid fa-copy"></i>
+        </span>
+    `
+    // add copy icon 
+    var fullscreenBtn = document.createElement("span")
+    fullscreenBtn.setAttribute("class", "code-copy-button")
+    fullscreenBtn.innerHTML = '<i class="fa-solid fa-expand"></i>'
+    // var expandIcon = document.createElement("i");
+    // expandIcon.className = "fa-solid fa-copy";
+    // fullscreenBtn.appendChild(expandIcon);
+    // fullscreenBtn.setAttribute("data-index", index)
+    // expandIcon.addEventListener('click', copyContents);
+
+    codeblockButtons.appendChild(fullscreenBtn)
+    preHeader.appendChild(langName);
+    preHeader.appendChild(codeblockButtons);
+
+    pre.parentNode.insertBefore(preHeader, pre)
+    setCodeFullScreen(preHeader, pre, fullscreenBtn)
+}
+
+
+function setCodeFullScreen(preHead, codeblock, btn) {
+    btn.addEventListener('click', function() {
+        if (codeblock.classList.contains('code-block-fullscreen')) {
+          codeblock.classList.remove('code-block-fullscreen');
+          preHead.classList.remove('code-head-fullscreen')
+          document.documentElement.classList.remove('code-block-fullscreen-html-scroll');
+        } else {
+          codeblock.classList.add('code-block-fullscreen');
+          preHead.classList.add('code-head-fullscreen')
+          document.documentElement.classList.add('code-block-fullscreen-html-scroll');
+        }
+    });
 }
