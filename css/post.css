@@ -15,7 +15,7 @@
   background-color: #fff;
   box-shadow: inset 2px 3px 1px 0px #fbfbfb;
   border: 1px solid #eee;
-  padding: 4px 14px 5px;
+  padding: 5px 14px 6px;
   border-radius: 8px 8px 0 0;
   border-bottom: none;
   margin-right: 10px;
@@ -23,7 +23,7 @@
   letter-spacing: 0px;
 }
 .code-block-header i {
-  padding: 12px 15px 0 0;
+  padding: 6px 10px;
 }
 .highlight {
   box-shadow: inset 2px 0px 1px 1px #fbfbfb, 0 0 15px rgba(0,0,0,0.1);
@@ -73,6 +73,9 @@
 }
 pre {
   color: #808080;
+}
+pre ::selection {
+  background-color: #d3d3d3;
 }
 .comment,
 .quote {
@@ -147,6 +150,9 @@ pre {
 }
 .serif {
   font-family: 'Source Han Serif SC', 'Source Han Serif', 'source-han-serif-sc', 'PT Serif', 'SongTi SC', 'MicroSoft Yahei', Georgia, serif;
+}
+.code-block-header {
+  user-select: none;
 }
 .code-block-fullscreen {
   position: fixed;
@@ -726,7 +732,7 @@ width: 100% {
 #post-content table tr th,
 #post-content table tr td {
   text-align: center;
-  padding: 5px 8px;
+  padding: 5px 15px;
 }
 #bottom-inner {
   border-color: #ddd;
