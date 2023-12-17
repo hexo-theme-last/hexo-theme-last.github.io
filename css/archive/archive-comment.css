@@ -46,6 +46,9 @@
 .timeline-item .timeline-content .post-content p {
   word-break: break-word;
 }
+.timeline-item .timeline-content .post-content p a {
+  color: #fff;
+}
 .timeline-item .timeline-content .post-content h3 a {
   font-size: 22px;
   color: #62b900;
@@ -53,6 +56,10 @@
   line-height: 25px;
   display: block;
   margin: 10px 0;
+}
+.timeline-item .timeline-content .post-content h3:hover {
+  text-decoration: underline;
+  color: #62b900;
 }
 .timeline-item:nth-of-type(2n) .timeline-info .post-time:after,
 .timeline-item:nth-of-type(2n+1) .timeline-info .post-time:after {
@@ -107,6 +114,9 @@
   .timeline-item .timeline-content .post-content h3 a {
     font-size: 25px;
     color: #fff;
+  }
+  .timeline-item .timeline-content .post-content h3 a:hover {
+    text-decoration: underline;
   }
   .timeline-item:nth-of-type(2n) .timeline-info,
   .timeline-item:nth-of-type(2n+1) .timeline-info {

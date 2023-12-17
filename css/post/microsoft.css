@@ -38,7 +38,8 @@
   border-bottom: #62b900 solid 2px;
 }
 #post-content p {
-  line-height: 30px;
+  line-height: 28px;
+  margin: 10px 0;
 }
 /* 无序列表整体样式
 * list-style-type: square|circle|disc;
@@ -51,13 +52,13 @@
   position: relative;
   line-height: 30px;
 }
-#post-content ul li:before {
+#post-content ul li:not(:has(input[type="checkbox"])):before {
   content: " ";
   background-color: #519500;
   width: 12px;
   height: 12px;
   border-radius: 20px;
-  top: 6px;
+  top: 9px;
   left: -20px;
   position: absolute;
 }
@@ -79,7 +80,7 @@
   height: 6px;
   border: solid 3px #519500;
   border-radius: 0px;
-  top: 6px;
+  top: 9px;
   left: -20px;
   position: absolute;
 }
@@ -95,7 +96,7 @@
   position: relative;
   margin-left: 23px;
 }
-#post-content ol li::before {
+#post-content ol>li::before {
   content: counter(li);
   counter-increment: li 1;
   color: #fff;
@@ -109,6 +110,31 @@
   background: #519500;
   border-radius: 20px;
   font-size: 14px;
+}
+/* checkbox 样式 */
+#post-content input[type=checkbox] {
+  width: 0;
+  margin-left: 0;
+  padding-left: 0;
+}
+#post-content li > input:checked:before,
+#post-content li > input[checked]:before,
+#post-content input[type="checkbox"]:checked:before {
+  content: '';
+  background-color: #fff;
+  background: url("/img/checked.svg") no-repeat center, #519500;
+}
+#post-content li input::before {
+  content: "";
+  display: inline-block;
+  width: 1.0125rem;
+  height: 1.0125rem;
+  border: 1.5px solid #519500;
+  border-radius: 2.2rem;
+  background-color: #fdfdfd;
+  margin-left: -1rem;
+  margin-right: 0.1rem;
+  margin-top: -0.1rem;
 }
 /* 引用
 * 左边缘颜色 border-left-color:black;
@@ -135,6 +161,19 @@
   content: "❞";
   float: right;
   color: rgba(98,185,0,0.5);
+}
+#post-content blockquote p {
+  text-indent: 30px;
+}
+#post-content blockquote footer {
+  display: block;
+  width: calc(100% - 40px);
+  margin-top: 8px;
+  text-align: right;
+  word-break: break-all;
+}
+#post-content blockquote footer:before {
+  content: "——";
 }
 /* 链接
 */
@@ -173,7 +212,7 @@
 */
 #post-content hr {
   border: none;
-  border-top: 6px dotted #62b900;
+  border-top: 3px dotted #62b900;
   height: 0;
 }
 /* 图片
@@ -188,13 +227,15 @@
 }
 /* 行内代码 */
 #post-content p code,
-#post-content li code {
+#post-content li code,
+#post-content table code {
   background-color: rgba(98,185,0,0.1);
   padding: 0 3px;
   border-radius: 5px;
   margin: 0 2px;
   color: #000;
   border: solid #62b900 1px;
+  line-height: 25px;
 }
 /*
 * 表格内的单元格

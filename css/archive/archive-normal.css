@@ -17,7 +17,10 @@
   text-align: center;
   font-size: 30px;
   padding: 40px 0;
+}
+.period a {
   color: #62b900;
+  text-decoration: none;
 }
 .timeline-item {
   border-left: 3px solid #62b900;
@@ -37,6 +40,9 @@
 .timeline-item .timeline-content .post-content p {
   word-break: break-word;
 }
+.timeline-item .timeline-content .post-content p a {
+  color: #fff;
+}
 .timeline-item .timeline-content .post-content h3 a {
   font-size: 22px;
   color: #62b900;
@@ -44,6 +50,10 @@
   line-height: 25px;
   display: block;
   margin: 10px 0;
+}
+.timeline-item .timeline-content .post-content h3:hover {
+  color: #62b900;
+  text-decoration: underline;
 }
 .timeline-item:nth-of-type(2n) .timeline-info .post-time:after,
 .timeline-item:nth-of-type(2n+1) .timeline-info .post-time:after {

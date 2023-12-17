@@ -11,32 +11,39 @@
 .code-block-header {
   color: #ccc;
 }
-.code-block-header .code-lang {
+.code-block-header .code-lang,
+.code-block-header .code-info {
   background-color: #fff;
   box-shadow: inset 2px 3px 1px 0px #fbfbfb;
   border: 1px solid #eee;
   padding: 5px 14px 6px;
   border-radius: 8px 8px 0 0;
   border-bottom: none;
-  margin-right: 10px;
   color: #808080;
   letter-spacing: 0px;
 }
+.code-block-header a {
+  border-bottom: 0px !important;
+  margin-left: 0px !important;
+}
 .code-block-header i {
   padding: 6px 10px;
+  margin: 0 3px;
 }
 .highlight {
-  box-shadow: inset 2px 0px 1px 1px #fbfbfb, 0 0 15px rgba(0,0,0,0.1);
+  box-shadow: inset 1px 0px 1px 1px #fbfbfb, 0 0 15px rgba(0,0,0,0.1);
   border: 1px solid #eee;
   background: #fff;
   border-radius: 0 8px 8px 8px;
 }
 .highlight table {
   border: none;
-  margin: 10px 0 !important;
 }
 .highlight table td {
   border: none !important;
+}
+.highlight table td:last-child {
+  width: 100%;
 }
 .highlight td.gutter {
   -webkit-touch-callout: none;
@@ -58,17 +65,29 @@
   text-align: left;
   color: #000;
 }
+.highlight pre .line {
+  display: inline-block;
+  width: 100%;
+}
+.highlight pre .line:hover {
+  background-color: rgba(200,200,200,0.1);
+}
+.highlight pre .marked {
+  background-color: rgba(200,200,200,0.1);
+}
 .code-head-fullscreen {
   position: fixed;
-  top: 0;
+  top: 10px;
   left: 0;
-  height: 38px;
+  height: 34px;
   z-index: 99;
   margin: 0;
   width: 100%;
   background-color: #fff;
 }
-.code-head-fullscreen .code-lang {
+.code-head-fullscreen .code-lang,
+.code-head-fullscreen .code-info {
+  margin-top: 10px;
   padding: 10px 5px;
 }
 pre {
@@ -293,7 +312,7 @@ pre ::selection {
   margin-left: 20px;
   position: relative;
 }
-#post-content ul li:before {
+#post-content ul li:not(:has(input[type="checkbox"])):before {
   content: "";
   background: rgba(98,185,0,0.5);
   width: 12px;
@@ -340,15 +359,41 @@ pre ::selection {
   color: #62b900;
   position: absolute;
   top: 3.5px;
-  left: -25px;
-  width: 15px;
-  height: 15px;
+  left: -24px;
+  width: 17px;
+  height: 17px;
   text-align: center;
   line-height: 16px;
-  border: 2px solid rgba(98,185,0,0.5);
+  border: 1px solid rgba(98,185,0,0.5);
   background: rgba(98,185,0,0.1);
   border-radius: 20px;
   letter-spacing: -2px !important;
+  font-size: 14px;
+  font-family: "sans serif";
+}
+#post-content input[type=checkbox] {
+  width: 0;
+  margin-left: 0;
+  padding-left: 0;
+}
+#post-content li > input:checked:before,
+#post-content li > input[checked]:before,
+#post-content input[type="checkbox"]:checked:before {
+  content: '';
+  background-color: #fff;
+  background: url("/img/checked.svg") no-repeat center, rgba(114,192,0,0.65);
+}
+#post-content li input::before {
+  content: "";
+  display: inline-block;
+  width: 1.0125rem;
+  height: 1.0125rem;
+  border: 1px solid rgba(114,192,0,0.65);
+  border-radius: 0.2rem;
+  background-color: #fdfdfd;
+  margin-left: -1rem;
+  margin-right: 0.1rem;
+  margin-top: -0.1rem;
 }
 #post-content blockquote::before {
   content: "❝";
@@ -370,6 +415,16 @@ pre ::selection {
   box-sizing: inherit;
   border: solid rgba(98,185,0,0.4) 1px;
   background: rgba(98,185,0,0.1);
+}
+#post-content blockquote footer {
+  display: block;
+  width: calc(100% - 40px);
+  margin-top: 8px;
+  text-align: right;
+  word-break: break-all;
+}
+#post-content blockquote footer:before {
+  content: "——";
 }
 #post-content blockquote p {
   color: #595959;
@@ -419,7 +474,8 @@ pre ::selection {
   box-shadow: 2px 4px 7px #999;
 }
 #post-content p code,
-#post-content li code {
+#post-content li code,
+#post-content table code {
   color: #519500;
   background: rgba(90,171,0,0.1);
   padding: 0 2px;
@@ -732,8 +788,66 @@ width: 100% {
 }
 #post-content table tr th,
 #post-content table tr td {
-  text-align: center;
   padding: 5px 15px;
+}
+#post-content table tr th[align="left"],
+#post-content table tr td[align="left"] {
+  text-align: left;
+}
+#post-content table tr th[align="center"],
+#post-content table tr td[align="center"] {
+  text-align: center;
+}
+#post-content table tr th[align="right"],
+#post-content table tr td[align="right"] {
+  text-align: right;
+}
+#post-content table tr th:not([align]),
+#post-content table tr td:not([align]) {
+/* 默认样式，根据需要设置 */
+  text-align: left;
+}
+#post-content kbd {
+  background-color: #fcfcfc;
+  border-radius: 3px;
+  border: 1px solid #ccc;
+  box-shadow: 1px 1px 1px #000;
+  padding: 0.5px 7px;
+  font-weight: bold;
+}
+#post-content dt {
+  padding: 5px;
+  font-weight: bold;
+}
+#post-content dt:after {
+  content: ":";
+}
+#post-content dt + dd {
+  text-indent: 40px;
+}
+#post-content sup {
+  font-size: smaller;
+  vertical-align: super;
+}
+#post-content sub {
+  font-size: smaller;
+  vertical-align: sub;
+}
+#post-content cite {
+  font-style: italic;
+}
+#post-content .video-container {
+  position: relative;
+  width: 100%; /* 设置宽度为父元素的一半 */
+  padding-bottom: 56.25%; /* 16:9 比例的视频高度占容器宽度的百分比 */
+  margin: 0 auto; /* 水平居中 */
+}
+#post-content .video-container iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
 }
 #bottom-inner {
   border-color: #ddd;
@@ -744,18 +858,18 @@ width: 100% {
 figure::-webkit-scrollbar,
 table::-webkit-scrollbar {
   width: 10px;
-  height: 10px;
+  height: 6px;
 /*background-color: #ddd;*/
 }
 figure::-webkit-scrollbar-thumb,
 table::-webkit-scrollbar-thumb {
 /*滚动条里面小方块*/
-  border-radius: 10px;
+  border-radius: 5px;
   background-color: #808080;
 }
 figure::-webkit-scrollbar-thumb:hover,
 table::-webkit-scrollbar-thumb:hover {
-  background-color: #777;
+  background-color: #aaa;
 }
 /*滑道*/
 figure::-webkit-scrollbar-track {
