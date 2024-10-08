@@ -892,17 +892,6 @@
     
     
     <entry>
-      <title>art</title>
-      <link href="/art/index.html"/>
-      <url>/art/index.html</url>
-      
-        <content type="html"><![CDATA[]]></content>
-      
-    </entry>
-    
-    
-    
-    <entry>
       <title>404</title>
       <link href="//404.html"/>
       <url>//404.html</url>
@@ -928,6 +917,17 @@
       <title>tags</title>
       <link href="/tags/index.html"/>
       <url>/tags/index.html</url>
+      
+        <content type="html"><![CDATA[]]></content>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>art</title>
+      <link href="/art/index.html"/>
+      <url>/art/index.html</url>
       
         <content type="html"><![CDATA[]]></content>
       
