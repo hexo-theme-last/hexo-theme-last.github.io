@@ -1,3 +1,7 @@
+import { initImageViewer } from "./third-party/view-image.js";
+
+initImageViewer("#post-content img");
+
 /********** set share function position  ***********/
 var share = document.getElementById("share-col");
 var shareIn = document.getElementById("shareButtons")
@@ -113,19 +117,14 @@ uniqId();
 // using tocbot API
 tocbot.init({
     headingsOffset: 80,
+    scrollSmoothOffset: -80,
     // Where to render the table of contents.
     tocSelector: '#tocs', // 放置目录的容器
     // Where to grab the headings to build the table of contents.
     contentSelector: '#post-content', // 正文内容所在
     // Which headings to grab inside of the contentSelector element.
     headingSelector: 'h1, h2, h3, h4, h5', // 需要索引的标题级别
-    // smoothScroll: true,
-    // smoothScrollOptions: {
-    //     easing: 'easeInOutCubic',
-    //     offset: 90,
-    //     speed: 3000, // animation duration.
-    //     updateURL: false
-    //   },
+    // scrollSmoothOffset: 50
 });
 
 
