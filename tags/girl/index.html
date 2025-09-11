@@ -22,7 +22,7 @@ window.themeConfig = {
 
 // Algolia configuration from site root _config.yml
 console.log('Debug: Setting up Algolia config from site root...');
-window.algolia = {"appId":"HZ8RKPY89N","apiKey":"48aec148e8fd2b0e954f40864f27d4a8","adminApiKey":"b0af130184bcf8a5982192eb237d5ec8","chunkSize":5000,"indexName":"o_oyao","fields":["content:strip:truncate,0,3000","excerpt:strip","tags","title","path"]};
+window.algolia = {"appId":"HZ8RKPY89N","apiKey":"48aec148e8fd2b0e954f40864f27d4a8","adminApiKey":"b0af130184bcf8a5982192eb237d5ec8","chunkSize":5000,"indexName":"o_oyao","fields":["content:strip:truncate,0,5000","excerpt:strip","tags","title","path"]};
 if (window.algolia) {
     console.log('✓ Algolia config loaded from site root:', window.algolia);
 } else {
