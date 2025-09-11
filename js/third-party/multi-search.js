@@ -11,6 +11,24 @@ class SearchEngineLoader {
         this.init();
     }
     
+    // Get i18n text with fallback to English
+    getI18nText(key, fallback) {
+        try {
+            if (typeof window !== 'undefined' && window.themeConfig && window.themeConfig.i18n) {
+                const keys = key.split('.');
+                let value = window.themeConfig.i18n;
+                for (const k of keys) {
+                    value = value[k];
+                    if (!value) break;
+                }
+                return value || fallback;
+            }
+        } catch (error) {
+            console.warn('Failed to get i18n text for key:', key, error);
+        }
+        return fallback;
+    }
+    
     init() {
         const searchConfig = this.getSearchConfig();
         if (!searchConfig.enable) {
@@ -36,6 +54,30 @@ class SearchEngineLoader {
                 trigger: 'click'
             }
         };
+    }
+    
+    getAlgoliaConfig() {
+        // Get Algolia config from site root config (standard way)
+        if (typeof window !== 'undefined' && window.algolia) {
+            const config = window.algolia;
+            console.log('Found Algolia config from site root:', config);
+            // Normalize field names to match Algolia SDK expectations
+            return {
+                appId: config.appId || config.applicationID,
+                apiKey: config.apiKey,
+                indexName: config.indexName,
+                chunkSize: config.chunkSize,
+                hits: config.hits || { per_page: 10 },
+                fields: config.fields || []
+            };
+        }
+        
+        console.warn('window.algolia not found, checking theme config...');
+        // Fallback to theme config (deprecated)
+        const searchConfig = this.getSearchConfig();
+        const themeAlgolia = searchConfig.algolia || {};
+        console.log('Theme Algolia config:', themeAlgolia);
+        return themeAlgolia;
     }
     
     async loadSearchEngine(engine) {
@@ -81,6 +123,7 @@ class SearchEngineLoader {
                     getSearchFile();
                 } else {
                     console.error('Local search function not found');
+                    console.warn('Make sure local-search.js is properly loaded');
                 }
                 this.onclick = null;
             };
@@ -121,23 +164,44 @@ class SearchEngineLoader {
                 console.log('Lunr.js search initialized');
             } else {
                 console.error('Lunr search function not found, falling back to local search');
+                console.warn('Make sure lunr-search.js is properly loaded');
                 return this.initLocalSearch(searchInput);
             }
         } catch (error) {
             console.error('Failed to initialize Lunr search:', error);
+            console.warn('Falling back to local search due to Lunr search initialization error');
             return this.initLocalSearch(searchInput);
         }
     }
     
     async initAlgoliaSearch(searchInput) {
-        const config = this.getSearchConfig().algolia;
+        const config = this.getAlgoliaConfig();
         
-        if (!config.applicationID || !config.apiKey || !config.indexName) {
-            console.error('Algolia search configuration incomplete');
-            return this.initLocalSearch(searchInput);
+        if (!config.appId || !config.apiKey || !config.indexName) {
+            console.warn('Algolia search configuration incomplete, falling back to Lunr search');
+            console.warn('Missing required fields:', {
+                appId: !config.appId ? 'missing' : 'present',
+                apiKey: !config.apiKey ? 'missing' : 'present', 
+                indexName: !config.indexName ? 'missing' : 'present'
+            });
+            console.warn('To use Algolia, configure it in your site root _config.yml');
+            return this.initLunrSearch(searchInput);
+        }
+
+        // Prevent duplicate initialization
+        if (window.algoliaSearchInstance) {
+            console.log('Algolia search already initialized, skipping...');
+            return;
         }
         
         try {
+            // Get i18n texts
+            const i18nTexts = {
+                empty: this.getI18nText('localSearch.empty', 'No results found'),
+                error: this.getI18nText('localSearch.error', 'Search temporarily unavailable'),
+                firstSearch: this.getI18nText('localSearch.firstSearch', 'Loading search index...')
+            };
+            
             // Load Algolia CSS
             await this.loadCSS('https://cdn.jsdelivr.net/npm/instantsearch.css@7/themes/algolia-min.css');
             
@@ -146,12 +210,17 @@ class SearchEngineLoader {
             await this.loadScript('https://cdn.jsdelivr.net/npm/instantsearch.js@4/dist/instantsearch.production.min.js');
             
             // Initialize Algolia with custom configuration
-            const searchClient = algoliasearch(config.applicationID, config.apiKey);
+            const searchClient = algoliasearch(config.appId, config.apiKey);
             
             // Apply search configuration
             const searchConfig = {
                 indexName: config.indexName,
-                searchClient
+                searchClient,
+                initialUiState: {
+                    [config.indexName]: {
+                        query: '' // Start with empty query to prevent initial search
+                    }
+                }
             };
             
             // Add routing if needed
@@ -160,6 +229,20 @@ class SearchEngineLoader {
             }
             
             const search = instantsearch(searchConfig);
+            
+            // State to control whether to show hits (prevent initial results display)
+            let showHits = false;
+            
+            // Configure search to not trigger initial search
+            search.on('render', () => {
+                if (!showHits) {
+                    const resultContainer = document.getElementById('local-search-result');
+                    if (resultContainer) {
+                        resultContainer.innerHTML = '';
+                        resultContainer.style.display = 'none';
+                    }
+                }
+            });
             
             // Don't use Algolia's searchBox widget - use custom integration
             // This keeps the original search UI intact
@@ -172,7 +255,7 @@ class SearchEngineLoader {
                     // Wrap all items in ul for consistent styling with local search
                     allItems: (renderOptions) => {
                         if (!renderOptions.items || renderOptions.items.length === 0) {
-                            return `<div class="local-search-empty">${config.labels?.hits_empty || 'No results found'}</div>`;
+                            return `<div class="local-search-empty">${config.labels?.hits_empty || i18nTexts.empty}</div>`;
                         }
                         return `<ul class="search-result-list">${renderOptions.items}</ul>`;
                     },
@@ -233,11 +316,13 @@ class SearchEngineLoader {
                     hitsPerPage: config.hits?.per_page || 10,
                     templates: {
                         item: (hit) => {
+                            // Only render items when user is actively searching
+                            if (!showHits) {
+                                return '';
+                            }
+                            
                             // Get article title with highlighting
                             const title = instantsearch.highlight({ attribute: 'title', hit }) || hit.title || 'Untitled';
-                            
-                            // Debug: log hit object to see available fields
-                            console.log('Algolia hit object:', hit);
                             
                             // Get content snippet with context around keywords
                             let contentSnippet = '';
@@ -315,7 +400,7 @@ class SearchEngineLoader {
                                 }
                             }
                             
-                            console.log('Article URL:', articleUrl);
+                            // Debug: Article URL logged only in development
                             
                             return `<div class="algolia-search-item">
                                 <a href="${articleUrl}" ${articleUrl === 'javascript:void(0)' ? `onclick="searchInSite('${hit.title.replace(/'/g, '\\\'')}')"` : 'target="_blank"'} class="algolia-result-title">
@@ -326,13 +411,16 @@ class SearchEngineLoader {
                                 ${tagsDisplay}
                             </div>`;
                         },
-                        empty: `<div class="local-search-empty">${config.labels?.hits_empty || 'No results found'}</div>`
+                        empty: (results) => {
+                            // Don't show "no results" on initial load (when no search has been performed)
+                            if (!showHits) {
+                                return '';
+                            }
+                            return `<div class="local-search-empty">${config.labels?.hits_empty || i18nTexts.empty}</div>`;
+                        }
                     }
                 })
             ]);
-            
-            // Start search
-            search.start();
             
             // Custom search input handling - integrate with existing UI
             let searchTimeout;
@@ -340,8 +428,12 @@ class SearchEngineLoader {
                 if (query.trim().length === 0) {
                     document.getElementById('local-search-result').innerHTML = '';
                     document.getElementById('local-search-result').style.display = 'none';
+                    showHits = false; // Reset to initial state
                     return;
                 }
+                
+                // Enable hits display when user starts searching
+                showHits = true;
                 
                 // Use Algolia search helper directly
                 search.helper.setQuery(query).search();
@@ -363,9 +455,13 @@ class SearchEngineLoader {
                 }
             });
             
-            // Handle click outside to hide results
+            // Handle click outside to hide results - but be more lenient
             document.addEventListener('click', (e) => {
-                if (!e.target.closest('.search')) {
+                const searchContainer = e.target.closest('.search');
+                const searchResult = e.target.closest('#local-search-result, .local-search-result-cls');
+                
+                // Only hide if clicking outside both search input AND search results
+                if (!searchContainer && !searchResult) {
                     document.getElementById('local-search-result').style.display = 'none';
                 }
             });
@@ -382,8 +478,16 @@ class SearchEngineLoader {
                 );
             }
             
-            // Start search
+            // Start search and mark as initialized
             search.start();
+            window.algoliaSearchInstance = search;
+            
+            // Hide search results initially
+            const resultContainer = document.getElementById('local-search-result');
+            if (resultContainer) {
+                resultContainer.style.display = 'none';
+                resultContainer.innerHTML = '';
+            }
             
             // Add global function for searching article titles in the current site
             window.searchInSite = function(title) {
@@ -412,6 +516,7 @@ class SearchEngineLoader {
             
         } catch (error) {
             console.error('Failed to initialize Algolia search:', error);
+            console.warn('Falling back to local search due to Algolia initialization error');
             return this.initLocalSearch(searchInput);
         }
     }
@@ -421,6 +526,7 @@ class SearchEngineLoader {
         
         if (!config.cx) {
             console.error('Google Custom Search configuration incomplete');
+            console.warn('Falling back to local search due to configuration error');
             return this.initLocalSearch(searchInput);
         }
         
@@ -439,6 +545,7 @@ class SearchEngineLoader {
             
         } catch (error) {
             console.error('Failed to initialize Google search:', error);
+            console.warn('Falling back to local search due to Google search initialization error');
             return this.initLocalSearch(searchInput);
         }
     }
@@ -448,6 +555,7 @@ class SearchEngineLoader {
         
         if (!config.key) {
             console.error('Swiftype search configuration incomplete');
+            console.warn('Falling back to local search due to configuration error');
             return this.initLocalSearch(searchInput);
         }
         
@@ -468,6 +576,7 @@ class SearchEngineLoader {
             
         } catch (error) {
             console.error('Failed to initialize Swiftype search:', error);
+            console.warn('Falling back to local search due to Swiftype search initialization error');
             return this.initLocalSearch(searchInput);
         }
     }
@@ -532,6 +641,7 @@ function getSearchFile() {
         searchFunc(path, 'local-search-input', 'local-search-result');
     } else {
         console.error('searchFunc not found, make sure local-search.js is loaded');
+        console.warn('Local search requires the local-search.js file to be properly loaded');
     }
 }
 
